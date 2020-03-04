@@ -1,16 +1,20 @@
-# audio_player
+# Music Player online 
 
-A new Flutter application.
+Streaming on Firebase Storage song
 
-## Getting Started
+# Depndencies are
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##flute_music_player: ^0.0.6
+  ##audioplayers:
+  ##flutter_launcher_icons:
+  ##dio: ^3.0.9
+  ##path_provider: ^1.6.5
+  ##file_utils: ^0.1.4
+  ##firebase_storage: ^3.0.8
+  
+  
+  #Requires Migration to AndroidX
+  AndroidX migration Link
+  https://medium.com/@carlosAmillan/fixing-androidx-error-in-flutter-f35e18d5925
+  ##Note : Do migration from second window in android Studio
+  
