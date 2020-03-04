@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "866166780073",
+    "firebase_url": "https://fluttersongs-a475e.firebaseio.com",
+    "project_id": "fluttersongs-a475e",
+    "storage_bucket": "fluttersongs-a475e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866166780073:android:361db6c6bb2da95bd2b9b8",
+        "android_client_info": {
+          "package_name": "com.example.audio_player"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866166780073-mgmpbdiu66lsvac3q5vkgbi3jkno1hmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUhm-ZSE-91QJ5Yahkqjott8geq_0gLEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866166780073-mgmpbdiu66lsvac3q5vkgbi3jkno1hmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
