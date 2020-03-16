@@ -13,11 +13,11 @@ Streaming on Firebase Storage song
   ### firebase_storage: ^3.0.8
   
 ## To access the list from firebase storage. Instead of installing package from firebase_storage: use
-   firebase_storage:
-     git:
-     url: git://github.com/danysz/flutterfire.git
-     ref: master
-    path: packages/firebase_storage
+   firebase_storage:<br/>
+     git:<br/>
+     url: git://github.com/danysz/flutterfire.git<br/>
+     ref: master<br/>
+    path: packages/firebase_storage<br/>
   
   
   # Requires Migration to AndroidX
