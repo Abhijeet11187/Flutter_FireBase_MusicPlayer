@@ -33,44 +33,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
   //Variables
 
-  List _songAll=[
-    'Señorita Ringtone.mp3',
-    'Ringtone_mahadev.MP3',
-    'Ringtone Zeher.mp3',
-    'KGF_ringtone(128k).mp3',
-    'Thumka.mp3',
-    'Despacito_F..mp3',
-    'Heeriye.mp3',
-    'Hookah bar.mp3',
-    'Jigra Uri.mp3',
-    'Kadak_Ban_Emiway.mp3',
-    'Mungda mungda.mp3',
-    'Mulshi Pattern Arara.mp3',
-    'Namo_Namo_-_Kedarnath.mp3',
-    'Nazar Nazar (Hathyar).mp3',
-    'Ringtone Kaliyan.mp3',
-    'Sher_Aaya_Sher.mp3'
-    ];
+  List _songAll = [];
+  Map tempData;
   Directory dir;
   File testFile;
   int _currentSongIndex;
   String songURL;
   Duration _currentPosition;
-  ByteData bytes;
   AudioPlayer audioPlayer = new AudioPlayer();
   bool _isMusicAvailable = true;
 
   @override
   void initState() {
     // _getMusic();
+    listSongs();
     super.initState();
   }
 
-
-//  Playing Audio (Calling Function to audioPlayer) 
+//  Playing Audio (Calling Function to audioPlayer)
 
   Future _playLocal(String songName) async {
     if (songName == null) {
@@ -81,49 +63,54 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-//  Loading Song From Firebase 
+//Listing Songs
+  void listSongs() async {
+    _songAll = [];
+    await FirebaseStorage.instance
+        .ref()
+        .child('song')
+        .listAll()
+        .then((result) => {
+              tempData = result['items'],
+            });
+    tempData.forEach((itemMainName, valueInsideMain) {
+      setState(() {
+        _songAll.add(valueInsideMain['name']);
+      });
+      // print(valueInsideMain['name']);
+    });
+  }
 
-  static Future<dynamic> loadSongFromFirebase(BuildContext context, String songName)async{
+//  Loading Song From Firebase
+
+  static Future<dynamic> loadSongFromFirebase(
+      BuildContext context, String songName) async {
     return await FirebaseStorage.instance
         .ref()
+        .child('song')
         .child(songName)
         .getDownloadURL();
   }
 
-//   Downloading the Song 
+//   Downloading the Song
 
-void downloadSong(BuildContext context)async{
-    Dio dio=Dio();
-    var dir=await getExternalStorageDirectory();
-    await dio.download(songURL, "${dir.path}/${_songAll[_currentSongIndex]}.mp3");
-    // Scaffold.of(context).showSnackBar(snackBar);  
-    print("Sneakbar is shown");
-}
+  void downloadSong(BuildContext context) async {
+    Dio dio = Dio();
+    var dir = await getExternalStorageDirectory();
+    await dio.download(
+        songURL, "${dir.path}/${_songAll[_currentSongIndex]}.mp3");
+  }
 
-//  Snackbar
-
-    // final snackBar = SnackBar(
-    //   content: Text('Song Downloaded'),
-    //   action: SnackBarAction(
-    //     label: 'Undo',
-    //     onPressed: () {
-    //       // Some code to undo the change.
-    //     },
-    //   ),
-    // );
-
-
-//  Function to play Music using Plugin audioPlayer 
+//  Function to play Music using Plugin audioPlayer
 
   Future<void> playMusic(String songName) async {
-  
-    //  Getting Download URL from the Firebase 
-    await loadSongFromFirebase(context, songName)
-        .then((value) => {
-              print(value),
-              songURL = value,
-            });
-    //                  
+    //  Getting Download URL from the Firebase
+    await loadSongFromFirebase(context, songName).then((value) => {
+          print(value),
+          songURL = value,
+        });
+    //
+    await audioPlayer.release();
     await audioPlayer.play(songURL);
     audioPlayer.onAudioPositionChanged.listen((Duration p) {
       setState(() {
@@ -133,7 +120,7 @@ void downloadSong(BuildContext context)async{
     });
   }
 
-  //   Getting Music From Mobile Phone 
+  //   Getting Music From Mobile Phone
 
   // void _getMusic() async {
   //   MusicFinder _musicFinder = new MusicFinder();
@@ -144,8 +131,7 @@ void downloadSong(BuildContext context)async{
   //   });
   // }
 
-
-  //   Retruns Bottom Sheet While Music is running able to pause, resume,stop music 
+  //   Retruns Bottom Sheet While Music is running able to pause, resume,stop music
 
   Widget _music_Playing(context) {
     showModalBottomSheet(
@@ -210,10 +196,10 @@ void downloadSong(BuildContext context)async{
                         await audioPlayer.seek(_seekPosition);
                       },
                     ),
-                     IconButton(
+                    IconButton(
                       tooltip: 'Download Song',
                       icon: Icon(Icons.file_download),
-                      onPressed: (){
+                      onPressed: () {
                         downloadSong(context);
                       },
                     ),
@@ -231,6 +217,13 @@ void downloadSong(BuildContext context)async{
         appBar: AppBar(
           backgroundColor: Colors.redAccent,
           title: Text(widget.title),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.refresh), onPressed: listSongs)
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: listSongs,
+          child: Icon(Icons.account_balance),
         ),
         body: _isMusicAvailable
             ? ListView.builder(

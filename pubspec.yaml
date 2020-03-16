@@ -26,7 +26,12 @@ dependencies:
   dio: ^3.0.9
   path_provider: ^1.6.5
   file_utils: ^0.1.4
-  firebase_storage: ^3.0.8
+  # firebase_storage: ^3.0.8
+  firebase_storage:
+    git:
+      url: git://github.com/danysz/flutterfire.git
+      ref: master
+      path: packages/firebase_storage
 
 
 
